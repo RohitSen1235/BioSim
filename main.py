@@ -80,10 +80,11 @@ if __name__=="__main__":
     # creating an instance of simulation using the interface class
     sim = BioSim(geography=geogr,
                 initial_animal_pop=example_pop,
-                random_seed=19,
+                seed=19,
                 hist_spec=example_hist_specs,
                 cmax=example_cmax_animals,
-                image_dir='./result',
+                img_dir='results',
+                img_base='test',
                 plot=True)
     
     # print(sim.island)
@@ -102,6 +103,6 @@ if __name__=="__main__":
 
     # sim.get_landscape_parameters('H')
 
-    sim.simulate(75)
+    sim.simulate(25)
     # sim.make_movie()
     sim.make_movie_avi()

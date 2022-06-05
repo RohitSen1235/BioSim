@@ -49,7 +49,7 @@ class BioSim:
     herbivore_pop_matrix: list = field(init=False,default_factory=list)
     carnivore_pop_matrix: list = field(init=False,default_factory=list)
 
-    def __init__(self,geography,initial_animal_pop=[],random_seed=0,num_years=1,ymax=None,cmax=None,hist_spec=None,plot=True,image_dir='result',image_base='sample') -> None:
+    def __init__(self,geography,initial_animal_pop=[],seed=0,num_years=1,ymax=None,cmax=None,hist_spec=None,plot=True,img_dir='results',img_base='sample',img_years=1) -> None:
         """
         constructor for BioSim object
         """
@@ -75,17 +75,18 @@ class BioSim:
         # 
         self.cmax=cmax
         # setting random seed 
-        self.random_seed=random_seed
+        self.random_seed=seed
         # 
         self.hist_spec=hist_spec
         # 
         self._year = 0
         self._year_target = num_years
+        self.vis_years=1
         self._plot_bool=plot
         self._plot: Plotting = None
-        self.img_dir=image_dir
+        self.img_dir=img_dir
         # 
-        self.img_base=image_base
+        self.img_base=img_base
 
         self.herbivore_pop_matrix = [[0 for _ in range(self.island.size[1])] for _ in range(self.island.size[0])]
         self.carnivore_pop_matrix = [[0 for _ in range(self.island.size[1])] for _ in range(self.island.size[0])]
@@ -150,6 +151,11 @@ class BioSim:
         f_max=Cell.get_cell_parameter(cell_type=landscape)
         # print(f_max)
 
+    def add_population(self,population_dict):
+        """
+        Additing Polulation to existing island
+        """
+        self.populate_island(population_dict)
 
     def run_year_cycle(self):
         """

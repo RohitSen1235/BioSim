@@ -209,10 +209,13 @@ class Cell:
             elif dict['species']=='Carnivore':
                
                self.carnivores.append(Carnivore(dict['age'],dict['weight'],has_moved=True))
+
+            else :
+                raise ValueError (f"Species NOT Defined")   
             
-            else:
+        else:
                
-               raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
+            raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
 
 
     def weight_loss(self):
