@@ -84,11 +84,11 @@ class Island():
         return cls(Temp_map)
 
     
-    # def set_island_str_representation(self,map_str):
-    #     """
-    #     setting string representation of map
-    #     """
-    #     self.map_str_representation=map_str
+    def set_island_str_representation(self,map_str):
+        """
+        setting string representation of map
+        """
+        self.map_str_representation=map_str
 
     
     def populate_island(self,population_dict):
@@ -228,7 +228,7 @@ class Island():
         """
         Returns total number of animals present in the island
         """
-        return self.num_hrebs() + self.num_carns()
+        return self.num_herbs() + self.num_carns()
 
 
     def num_herbs(self):
