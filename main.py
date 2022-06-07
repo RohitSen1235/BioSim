@@ -11,6 +11,7 @@ import textwrap
 
 if __name__=="__main__":
 
+    # sample map
     geogr = """\
                WWWWWWWWWWWWWWWWWWWWW
                WHHHHHLLLLWWLLLLLLLWW
@@ -35,12 +36,8 @@ if __name__=="__main__":
                WWWHHHHHHWWWWWWWWWWWW
                WWWWWWWWWWWWWWWWWWWWW"""
     geogr = textwrap.dedent(geogr)
-    # geogr ="""\
-    #           WWW
-    #           WLW
-    #           WWW"""
-    # geogr = textwrap.dedent(geogr)
 
+    # sample population for simulation
     example_pop = [{'loc': (10,10),
                    'pop': [
                         {'species': 'Herbivore', 'age': 5, 'weight': 20} for _ in range (150)
@@ -59,35 +56,27 @@ if __name__=="__main__":
                     ]} 
                 ]
 
-    
-    # Interface class Structure for inistantiating simulation
-    # sim = BioSim(geogr, ini_herbs + ini_carns, seed=1,
-    #              hist_specs={'fitness': {'max': 1.0, 'delta': 0.05},
-    #                          'age': {'max': 60.0, 'delta': 2},
-    #                          'weight': {'max': 60, 'delta': 2}},
-    #              cmax_animals={'Herbivore': 200, 'Carnivore': 50},
-    #              img_dir='results',
-    #              img_base='sample')
+    # sample histogram plotting specification
+    # max : maximum value of respective properties in histogram plot
+    # delta : spacing between adjacent histograms in plot
+    example_hist_specs={'fitness': {'max': 1.0, 'delta': 0.01},
+                             'age': {'max': 60.0, 'delta': 1},
+                             'weight': {'max': 60, 'delta': 1}}
 
-  
-    example_hist_specs={'fitness': {'max': 1.0, 'delta': 0.05},
-                             'age': {'max': 60.0, 'delta': 2},
-                             'weight': {'max': 60, 'delta': 2}}
+    # 
+    example_xmax_animals= {'Herbivore': 200, 'Carnivore': 50}
 
-    example_cmax_animals= {'Herbivore': 200, 'Carnivore': 50}
 
-    # print(f"from main.py\n{geogr}")
-    # creating an instance of simulation using the interface class
     sim = BioSim(geography=geogr,
                 initial_animal_pop=example_pop,
                 seed=19,
                 hist_spec=example_hist_specs,
-                cmax=example_cmax_animals,
+                xmax=example_xmax_animals,
                 img_dir='results',
                 img_base='test',
                 plot=True)
     
-    # print(sim.island)
+
 
     # sim.get_animal_parameters('Herbivore')
     # sim.set_animal_parameters('Herbivore',{'w_birth': 8.0,
