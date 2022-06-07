@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from Cell import Cell,Cell_Type
+from Cell import Cell,Cell_Type, desert_cell, highland_cell, lowland_cell
 
 
 @dataclass
@@ -26,10 +26,6 @@ class Island():
         """
         creates all the cells that make up the island from the string representation
         """
-        # print(f"Creating island map from string")
-        # print(f"{map_str}")
-        
-        # print("1")
 
         Temp_map=[]
         valid_cell_types=['W','L','H','D']
@@ -39,28 +35,32 @@ class Island():
 
         cls.size=(n_rows,n_cols)
 
-        # print("2")
-
         # checking for map inconsistency
         for i in range(1,n_rows):
             if len(map_list[i-1])!=len(map_list[i]):
                 raise ValueError(f"Inconsistent Map!! all rows must be of same length")
 
-        # print("3")
 
         for i in range(0,n_rows):
             for j in range(0,n_cols):
+
                 # checking boundary cells
                 if map_list[0][j] !='W' or map_list[i][0]!='W' or map_list[-1][j]!='W' or map_list[i][-1]!='W' :
+
                     raise ValueError(f"Boundary cells need to be of type water (W): type {map_list[i][j]} not valid at ({i+1},{j+1})")
+
                 # checking for invalid cell type type
                 elif map_list[i][j] not in valid_cell_types:
+
                     raise ValueError(f"Cell type is not valid : type '{map_list[i][j]}' at ({i+1},{j+1}) is Undefined")
 
                 else:
                     # finding neighbours for all cells which are not of type water
                     # naighbours are valid only if neighbours themself are also not of type water
+
+                    # container to hold neighbours of current cell 
                     cell_neighbours=[]
+
                     if map_list[i][j] != 'W':
                         
                         cell_north=(i,j+1) if i>0 and map_list[i-1][j] !='W' else None
@@ -74,12 +74,23 @@ class Island():
                         cell_west =(i+1,j) if j>0 and map_list[i][j-1] !='W' else None
                         if cell_west is not None:
                             cell_neighbours.append(cell_west) 
+                            
                         cell_east =(i+1,j+2) if j<n_cols-1 and map_list[i][j+1] !='W' else None
                         if cell_east is not None:
                             cell_neighbours.append(cell_east)
 
-                    Temp_map.append(Cell.from_map_char((i+1,j+1),map_list[i][j],neighbours=cell_neighbours))
-        # print('4')   
+                    if map_list[i][j] == 'D':
+                        # creating cell of type desert
+                        Temp_map.append(desert_cell.from_map_char((i+1,j+1),neighbours=cell_neighbours))  
+                    
+                    elif map_list[i][j] == 'L':
+                        # creating cell of type lowland
+                        Temp_map.append(lowland_cell.from_map_char((i+1,j+1),neighbours=cell_neighbours))  
+
+                    elif map_list[i][j] == 'H':
+                        # creating cell of type highland
+                        Temp_map.append(highland_cell.from_map_char((i+1,j+1),neighbours=cell_neighbours))  
+                    
         
         return cls(Temp_map)
 

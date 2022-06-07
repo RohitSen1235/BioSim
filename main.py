@@ -95,14 +95,13 @@ if __name__=="__main__":
     #                                         'beta': 0.95,
     #                                         'eta': 0.15,
     #                                         'xi':4.5})
-    # sim.get_animal_parameters('Herbivore')
 
     # sim.get_landscape_parameters('H')
-
     # sim.set_landscape_parameters('H',{'f_max':500.0})
-
     # sim.get_landscape_parameters('H')
 
     sim.simulate(25)
     # sim.make_movie()
     sim.make_movie_avi()
+
+    sim.image_cleanup()

@@ -10,7 +10,7 @@ class Plotting:
     """Plotting class to be used in biosim.py.
     """
 
-    def __init__(self, Island, map_str, herbivore_pop_matrix, carnivore_pop_matrix,num_herbivores,num_carnivores, cmax=None, ymax=None, hist_specs=None,image_dir="./result"):
+    def __init__(self, Island, map_str, herbivore_pop_matrix, carnivore_pop_matrix,num_herbivores,num_carnivores, xmax=None, ymax=None, hist_specs=None,image_dir="./result"):
         self._island = Island
         self._island_str = map_str
         self._img_dir = image_dir
@@ -44,12 +44,12 @@ class Plotting:
 
         self._ymax = ymax
 
-        self._cmax = cmax
-        if self._cmax is None:
-            self._cmax = {"Herbivore": 200, "Carnivore": 50}
+        self._xmax = xmax
+        if self._xmax is None:
+            self._xmax = {"Herbivore": 200, "Carnivore": 50}
 
-        self._cmax_herb = self._cmax["Herbivore"]
-        self._cmax_carn = self._cmax["Carnivore"]
+        self._xmax_herb = self._xmax["Herbivore"]
+        self._xmax_carn = self._xmax["Carnivore"]
 
         if hist_specs is None:
             self._hist_specs = {
@@ -195,30 +195,23 @@ class Plotting:
         """Create matrix for population and initiate heatmap.
         """
         
-        temp=self._island_str.split()
-        cols =len(temp[0])
-        rows =len(temp)
-
-        # self.herb_pop_matrix = [
-        #     [0 for _ in range(cols)] for _ in range(rows)
-        # ]
-        # self.carn_pop_matrix = [
-        #     [0 for _ in range(cols)] for _ in range(rows)
-        # ]
+        # temp=self._island_str.split()
+        # cols =len(temp[0])
+        # rows =len(temp)
 
         self._imax_herb = self._axhm_herb.imshow(
             # self._island.herbivore_pop_matrix,
             self.herb_pop_matrix,
             cmap="viridis",
             interpolation="nearest",
-            vmax=self._cmax_herb,
+            vmax=self._xmax_herb,
         )
         self._imax_carn = self._axhm_carn.imshow(
             # self._island.carnivore_pop_matrix,
             self.carn_pop_matrix,
             cmap="cividis",
             interpolation="nearest",
-            vmax=self._cmax_carn,
+            vmax=self._xmax_carn,
         )
         self._axhm_herb.set_title("Herbivore density")
         self._axhm_carn.set_title("Carnivore density")

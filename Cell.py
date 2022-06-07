@@ -1,3 +1,4 @@
+from abc import ABC,abstractmethod
 from dataclasses import dataclass, field
 from queue import Empty
 
@@ -17,63 +18,48 @@ class Cell_Type(enum.Enum):
     lowland = 4
 
 @dataclass
-class Cell:
+class Cell(ABC):
     """
     This class represents one unit cell of the island
     """
     location: tuple 
-    type: Cell_Type
+    # type: Cell_Type
     neighbours: tuple = field(default_factory=list)
     f_max : float = 0.0
     herbivores: Herbivore = field(default_factory=list)
     carnivores: Carnivore = field(default_factory=list)
     
-    p={
-        'W': {'f_max':0.0},
-        'L': {'f_max':800.0},
-        'H': {'f_max':300.0},
-        'D': {'f_max':0.0}
-    }
-
     @classmethod
-    def set_cell_parameter(cls,cell_type,new_parameter):
+    def set_cell_parameter(cls,new_parameter):
 
-            if cell_type in ['H','L']:
-                if new_parameter['f_max'] < 0:
-                    raise ValueError("Parameter must be positive")
-                else:
-                    cls.p.update({cell_type:new_parameter})
+            if new_parameter['f_max'] < 0:
+                raise ValueError("Parameter must be positive")
             else:
-                raise ValueError(f"parameters of cell type:{cell_type} can not be modified only 'H' and 'L' are allowed ")
-    
+                cls.p=new_parameter
+
     @classmethod
-    def get_cell_parameter(cls,cell_type):
-        
-        if cell_type in ['H','L']:
-            return cls.p[cell_type]
+    def get_cell_parameter(cls):
+        """
+        This function returns the parameter of selected cell type
+        - cell type should be either 'H' or 'L' 
+        """
+        return cls.p
     
-    @classmethod
+    @abstractmethod
     def from_map_char(cls,location,char_cell_type,neighbours):
         """
-        This function creates the cells of various types according to the 
+        This is  an abstract function for creating cells of different types
+        -the actual implementation for each type SHOULD be present in all the respective derived classes
         """
         # creating a cell of water type
-        if char_cell_type =='W':
-            return cls(location=location,type=Cell_Type.water,neighbours=neighbours)
-        # creating a cell of Lowland type
-        elif char_cell_type =='L':
-            return cls(location=location,type=Cell_Type.lowland,neighbours=neighbours,f_max=cls.p['L'])
-        # creating a cell of Highland type
-        elif char_cell_type =='H':
-            return cls(location=location,type=Cell_Type.highland,neighbours=neighbours,f_max=cls.p['H'])
-        # creating a cell of Desert type
-        else:
-            return cls(location=location,type=Cell_Type.desert,neighbours=neighbours)
+        # return cls(location=location,neighbours=neighbours)
+        
 
-
+    @abstractmethod
     def populate_cell(self,animal_dict):
         """
-        populating the cell with animals as specified in the input dict"""
+        populating the cell with animals as specified in the input dict
+        """
         for dict in animal_dict:
             if self.type is not Cell_Type.water:
                 if dict['species']=='Herbivore':
@@ -83,10 +69,6 @@ class Cell:
             else:
                 raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
 
-        # for herb in self.herbivores:
-        #     herb.Compute_fitness()
-        # for carn in self.carnivores:
-        #     carn.Compute_fitness()
 
         for animal in self.herbivores+self.carnivores:
             animal.Compute_fitness()
@@ -96,12 +78,7 @@ class Cell:
         """
         depending on the type of cell the maximumm fodder possible is grown
         """
-        if self.type == Cell_Type.lowland:
-            self.f_max=800.0
-        elif self.type ==Cell_Type.highland:
-            self.f_max=300.0
-        else:
-            self.f_max=0
+        self.f_max=self.p.get('f_max')
     
     
     def increment_age_of_animals(self):
@@ -200,7 +177,7 @@ class Cell:
         """
         moving migrated animals to respective cell
         """
-        if self.type is not Cell_Type.water:
+        if type(self) is not type(water_cell):
 
             if dict['species']=='Herbivore':
 
@@ -260,3 +237,103 @@ class Cell:
         returns the number of carnivores present in the cell
         """
         return len(self.carnivores)
+
+
+# derived class representing water cells
+class water_cell(Cell):
+
+    # property of water type cell
+    p={'f_max':0.0}
+
+    # creating a cell of type water
+    @classmethod
+    def from_map_char(cls,location,neighbours):
+        """
+        This function creates the cells of type water
+        """
+        return cls(location,neighbours)
+
+    # populating cell
+    def populate_cell(self,animal_dict):
+        """
+        Can not populate cel of type water
+        """
+        raise ValueError (f"Animals can NOT be place in Water, please double check location : {self.location} ")
+
+# derived class representing desert cells
+class desert_cell(Cell):
+
+    # property of water type cell
+    p={'f_max':0.0}
+
+    # creating a cell of type desert
+    @classmethod
+    def from_map_char(cls,location,neighbours):
+        """
+        This function creates the cells of type desert
+        """
+        return cls(location,neighbours)
+
+    # populating cell
+    def populate_cell(self,animal_dict):
+        """
+        populating the cell with animals as specified in the input dict
+        """
+        for dict in animal_dict:
+            if dict['species']=='Herbivore':
+                self.herbivores.append(Herbivore(dict['age'],dict['weight']))
+            elif dict['species']=='Carnivore':
+                self.carnivores.append(Carnivore(dict['age'],dict['weight']))    
+
+# derived class representing lowland cells
+class lowland_cell(Cell):
+
+    # property of water type cell
+    p={'f_max':800.0}
+
+
+    # creating a cell of type lowland
+    @classmethod
+    def from_map_char(cls,location,neighbours):
+        """
+        This function creates the cells of type lowland
+        """
+        return cls(location,neighbours)
+
+    # populating cell
+    def populate_cell(self,animal_dict):
+        """
+        populating the cell with animals as specified in the input dict
+        """
+        for dict in animal_dict:
+            if dict['species']=='Herbivore':
+                self.herbivores.append(Herbivore(dict['age'],dict['weight']))
+            elif dict['species']=='Carnivore':
+                self.carnivores.append(Carnivore(dict['age'],dict['weight']))    
+   
+
+# derived class representing highland cells
+class highland_cell(Cell):
+
+    # property of water type cell
+    p={'f_max':300.0}
+
+
+    # creating a cell of type highland
+    @classmethod
+    def from_map_char(cls,location,neighbours):
+        """
+        This function creates the cells of type highland
+        """
+        return cls(location,neighbours)
+
+    # populating cell
+    def populate_cell(self,animal_dict):
+        """
+        populating the cell with animals as specified in the input dict
+        """
+        for dict in animal_dict:
+            if dict['species']=='Herbivore':
+                self.herbivores.append(Herbivore(dict['age'],dict['weight']))
+            elif dict['species']=='Carnivore':
+                self.carnivores.append(Carnivore(dict['age'],dict['weight']))    
