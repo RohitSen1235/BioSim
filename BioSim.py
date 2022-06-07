@@ -197,6 +197,8 @@ class BioSim:
 
         self._year +=1
 
+        print(f"year completed:{self._year}")
+
 
     def simulate(self,num_years,vis_years=1,img_years=None):
         """

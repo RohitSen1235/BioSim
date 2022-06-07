@@ -37,6 +37,7 @@ if __name__=="__main__":
                WWWWWWWWWWWWWWWWWWWWW"""
     geogr = textwrap.dedent(geogr)
 
+
     # sample population for simulation
     example_pop = [{'loc': (10,10),
                    'pop': [
@@ -56,6 +57,7 @@ if __name__=="__main__":
                     ]} 
                 ]
 
+
     # sample histogram plotting specification
     # max : maximum value of respective properties in histogram plot
     # delta : spacing between adjacent histograms in plot
@@ -63,10 +65,12 @@ if __name__=="__main__":
                              'age': {'max': 60.0, 'delta': 1},
                              'weight': {'max': 60, 'delta': 1}}
 
-    # 
+
+    # setting max values of herbivores and carnivores in plot legend
     example_xmax_animals= {'Herbivore': 200, 'Carnivore': 50}
 
 
+    # creating an instance of BioSim for the simulation
     sim = BioSim(geography=geogr,
                 initial_animal_pop=example_pop,
                 seed=19,
@@ -77,20 +81,30 @@ if __name__=="__main__":
                 plot=True)
     
 
-
-    # sim.get_animal_parameters('Herbivore')
+    # # uncomment the below lines for setting/modifying animal parameters
+    # # this is just an example for reference
+    # # this is an optional step
     # sim.set_animal_parameters('Herbivore',{'w_birth': 8.0,
     #                                         'sigma_birth': 1.5,
     #                                         'beta': 0.95,
     #                                         'eta': 0.15,
     #                                         'xi':4.5})
 
-    # sim.get_landscape_parameters('H')
+
+    # # uncomment the below line for setting/modifying the landscape parameter, f_max for highland and lowland
+    # # this is just and example for reference 
+    # # this is an optional step
     # sim.set_landscape_parameters('H',{'f_max':500.0})
-    # sim.get_landscape_parameters('H')
 
-    sim.simulate(25)
+    # below line runs the simulation
+    sim.simulate(5)
+    
+    # # make mp4 movie out of the saved images
     # sim.make_movie()
-    sim.make_movie_avi()
 
-    sim.image_cleanup()
+    # # make .avi movie from the saved images
+    # sim.make_movie_avi()
+
+    # # clean/delete the saved images
+    # # do NOT use this command if you wish to keep all the images saved for each year of simulation
+    # sim.image_cleanup()
