@@ -1,7 +1,7 @@
 # from dataclasses import dataclass,field
 # from abc import ABC,abstractmethod
 from Animal import Herbivore,Carnivore
-from Cell import Cell,Cell_Type
+from Cell import Cell,water_cell,desert_cell,highland_cell,lowland_cell
 from Island import Island
 from BioSim import BioSim
 
@@ -97,7 +97,7 @@ if __name__=="__main__":
     # sim.set_landscape_parameters('H',{'f_max':500.0})
 
     # below line runs the simulation
-    sim.simulate(5)
+    # sim.simulate(5)
     
     # # make mp4 movie out of the saved images
     # sim.make_movie()
@@ -108,3 +108,7 @@ if __name__=="__main__":
     # # clean/delete the saved images
     # # do NOT use this command if you wish to keep all the images saved for each year of simulation
     # sim.image_cleanup()
+
+    new_cell=highland_cell((2,2))
+
+    new_cell.populate_cell([{'species': "Herbivore", 'age': 5, 'weight': 20}])

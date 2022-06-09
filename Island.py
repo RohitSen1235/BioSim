@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from Cell import Cell,Cell_Type, desert_cell, highland_cell, lowland_cell
+from Cell import Cell,desert_cell, highland_cell, lowland_cell
 
 
 @dataclass

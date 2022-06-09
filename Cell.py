@@ -11,11 +11,6 @@ from math import e
 import enum
  
 # creating enumerations using class
-class Cell_Type(enum.Enum):
-    water = 1
-    desert = 2
-    highland = 3
-    lowland = 4
 
 @dataclass
 class Cell(ABC):
@@ -23,7 +18,6 @@ class Cell(ABC):
     This class represents one unit cell of the island
     """
     location: tuple 
-    # type: Cell_Type
     neighbours: tuple = field(default_factory=list)
     f_max : float = 0.0
     herbivores: Herbivore = field(default_factory=list)
@@ -60,18 +54,18 @@ class Cell(ABC):
         """
         populating the cell with animals as specified in the input dict
         """
-        for dict in animal_dict:
-            if self.type is not Cell_Type.water:
-                if dict['species']=='Herbivore':
-                    self.herbivores.append(Herbivore(dict['age'],dict['weight']))
-                elif dict['species']=='Carnivore':
-                    self.carnivores.append(Carnivore(dict['age'],dict['weight']))
-            else:
-                raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
+        # for dict in animal_dict:
+        #     if type(self) is not type(water_cell):
+        #         if dict['species']=='Herbivore':
+        #             self.herbivores.append(Herbivore(dict['age'],dict['weight']))
+        #         elif dict['species']=='Carnivore':
+        #             self.carnivores.append(Carnivore(dict['age'],dict['weight']))
+        #     else:
+        #         raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
 
 
-        for animal in self.herbivores+self.carnivores:
-            animal.Compute_fitness()
+        # for animal in self.herbivores+self.carnivores:
+        #     animal.Compute_fitness()
 
 
     def grow_fodder(self):

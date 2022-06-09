@@ -293,6 +293,8 @@ class Carnivore(Animal):
             else:
                 # continues the steps until the carnivore has consumed required amount of food
                 continue
+
+            
         # Animal only eat what they require, they can not consume more than what is required
         if food_consumed>self.p['F']:
             food_consumed=self.p['F']

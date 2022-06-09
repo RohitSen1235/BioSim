@@ -2,7 +2,7 @@ from dataclasses import dataclass,field
 from distutils.log import error
 from gettext import npgettext
 from Animal import Herbivore,Carnivore
-from Cell import Cell,Cell_Type, highland_cell, lowland_cell, water_cell
+from Cell import Cell, highland_cell, lowland_cell, water_cell
 from Island import Island
 from visualization import Plotting
 
