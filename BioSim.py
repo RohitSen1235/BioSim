@@ -33,14 +33,14 @@ class BioSim:
         constructor for BioSim object
         """
         self.random_seed =seed
-        self.hist_spec:dict
-        self.vis_years:int
-        self._year: int
-        self._ymax: int
-        self._cmax: int
-        self._year_target: int 
-        self._plot_bool: bool
-        self._plot: Plotting
+        self.hist_spec = None
+        self.vis_years = 1
+        self._year =0
+        self._ymax =None
+        self._cmax =None
+        self._year_target = num_years
+        self._plot_bool =plot
+        self._plot =None
         self.img_dir ="results"
         self.img_base ="sample" 
         self.img_fmt ="png"
@@ -64,7 +64,7 @@ class BioSim:
             self.map_str_representation = geography
         
         else:
-            raise ValueError(F"Map geography shoudld be of type str!")
+            raise ValueError(f"Map geography shoudld be of type str!")
 
         # populating the island with initial population
         self.island.populate_island(population_dict=initial_animal_pop)
