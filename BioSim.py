@@ -1,6 +1,5 @@
-from dataclasses import dataclass,field
 from Animal import Herbivore,Carnivore
-from Cell import Cell, highland_cell, lowland_cell, water_cell
+from Cell import highland_cell, lowland_cell, water_cell
 from Island import Island
 from visualization import Plotting
 
@@ -24,34 +23,32 @@ _DEFAULT_GRAPHICS_NAME = "BioSim"
 _DEFAULT_MOVIE_FORMAT = "mp4"  # alternatives: mp4, gif
 
 
-@dataclass
 class BioSim:
     """
     This is the Interface class for setting up the simulation by providing various simulation parameters
     """
-    island:Island
-    map_str_representation: str
-    random_seed:int
-    hist_spec:dict
-    vis_years:int
-    _year: int
-    _ymax: int
-    _cmax: int
-    _year_target: int 
-    _plot_bool: bool
-    _plot: Plotting
-    img_dir:str ="results"
-    img_base:str ="sample" 
-    img_fmt:str ="png"
-    _num_herbs: int = field(init=False,default_factory=0)
-    _num_carns: int = field(init=False,default_factory=0)
-    herbivore_pop_matrix: list = field(init=False,default_factory=list)
-    carnivore_pop_matrix: list = field(init=False,default_factory=list)
 
     def __init__(self,geography,initial_animal_pop=[],seed=0,num_years=1,ymax=None,xmax=None,hist_spec=None,plot=True,img_dir='results',img_base='sample',img_years=1) -> None:
         """
         constructor for BioSim object
         """
+        self.random_seed =seed
+        self.hist_spec:dict
+        self.vis_years:int
+        self._year: int
+        self._ymax: int
+        self._cmax: int
+        self._year_target: int 
+        self._plot_bool: bool
+        self._plot: Plotting
+        self.img_dir ="results"
+        self.img_base ="sample" 
+        self.img_fmt ="png"
+        self._num_herbs= 0
+        self._num_carns= 0
+        self.herbivore_pop_matrix=[]
+        self.carnivore_pop_matrix=[]
+
         # generating map/geography of island
         if geography is None:
             # specifying defaule geometry if none specified

@@ -1,6 +1,4 @@
-from dataclasses import dataclass, field
-from typing import List
-from Cell import Cell,desert_cell, highland_cell, lowland_cell
+from Cell import desert_cell, highland_cell, lowland_cell
 
 
 class Island():
@@ -67,19 +65,25 @@ class Island():
                     cell_neighbours=[]
 
                     if map_list[i][j] != 'W':
-                        
+                        # location should start from (1,1)  whereas indexing array starts from [0][0] :[row][col]
+                        # therefor : current cell position => (i+1,j+1) current cell index : [i][j]
+
+                        # north : same column but one row before current row => position:(i,j+1) index:[i-1][j]  
                         cell_north=(i,j+1) if i>0 and map_list[i-1][j] !='W' else None
                         if cell_north is not None:
                             cell_neighbours.append(cell_north)
 
+                        # south : same column but one row after current row => position:(i+2,j+1) index:[i+1][j]  
                         cell_south=(i+2,j+1) if i<n_rows-1 and map_list[i+1][j] !='W' else None
                         if cell_south is not None:
                             cell_neighbours.append(cell_south)
 
+                        # west : same row but one column before current column => position:(i+1,j) index:[i][j-1]  
                         cell_west =(i+1,j) if j>0 and map_list[i][j-1] !='W' else None
                         if cell_west is not None:
                             cell_neighbours.append(cell_west) 
-                            
+
+                        # east : same row but one column after current column => position:(i+1,j+1) index:[i][j+1]     
                         cell_east =(i+1,j+2) if j<n_cols-1 and map_list[i][j+1] !='W' else None
                         if cell_east is not None:
                             cell_neighbours.append(cell_east)

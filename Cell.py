@@ -1,29 +1,14 @@
 from abc import ABC,abstractmethod
-from dataclasses import dataclass, field
-from queue import Empty
-
-from pkg_resources import empty_provider
 from Animal import Herbivore,Carnivore
 import random as random
 from math import e
 
-# importing enum for enumerations
-import enum
- 
-# creating enumerations using class
 
-@dataclass
 class Cell(ABC):
     """
     This class represents one unit cell of the island
     """
-    # location: tuple 
-    # neighbours: tuple = field(default_factory=list)
-    # f_max : float = 0.0
-    # herbivores: Herbivore = field(default_factory=list)
-    # carnivores: Carnivore = field(default_factory=list)
-
-    
+   
     
     @classmethod
     def set_cell_parameter(cls,new_parameter):
@@ -47,8 +32,7 @@ class Cell(ABC):
         This is  an abstract function for creating cells of different types
         -the actual implementation for each type SHOULD be present in all the respective derived classes
         """
-        # creating a cell of water type
-        # return cls(location=location,neighbours=neighbours)
+
         
 
     @abstractmethod
@@ -56,18 +40,6 @@ class Cell(ABC):
         """
         populating the cell with animals as specified in the input dict
         """
-        # for dict in animal_dict:
-        #     if type(self) is not type(water_cell):
-        #         if dict['species']=='Herbivore':
-        #             self.herbivores.append(Herbivore(dict['age'],dict['weight']))
-        #         elif dict['species']=='Carnivore':
-        #             self.carnivores.append(Carnivore(dict['age'],dict['weight']))
-        #     else:
-        #         raise ValueError (f"Animals can NOT be place in Water, double check location : {self.location} ")
-
-
-        # for animal in self.herbivores+self.carnivores:
-        #     animal.Compute_fitness()
 
 
     def grow_fodder(self):
@@ -355,7 +327,7 @@ class highland_cell(Cell):
     @classmethod
     def from_map_char(cls,location,neighbours):
         """
-        This function creates the cells of type highland
+        This function creates the cells of type highland 
         """
         return cls(location,neighbours)
 
