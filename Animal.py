@@ -9,7 +9,7 @@ def q(sign,x,x_half,phi):
     return 1.0/(1.0+e**(sign*phi*(x-x_half)))
 
 
-@dataclass
+
 class Animal(ABC):
     """
     Abstract class for Representing Animals.
@@ -17,21 +17,18 @@ class Animal(ABC):
     - Herbivore class
     - Carnivore class
     """
-    age: int 
-    weight: float
-    fitness: float = 0.0
-    has_moved : bool = False
+
 
     def __str__(self) -> str:
         str_representation=f"{self.__class__.__name__} \tage:{self.age} \twt:{round(self.weight,3)} \tft:{round(self.fitness,4)} \tmig:{self.has_moved}"
         return str_representation
         
 
-    def __lt__(self,other):
-        """
-        Defining lesser than (<) operator for sorting
-        """
-        return self.fitness < other.fitness
+    # def __lt__(self,other):
+    #     """
+    #     Defining lesser than (<) operator for sorting
+    #     """
+    #     return self.fitness < other.fitness
 
 
     @classmethod
@@ -164,11 +161,19 @@ class Animal(ABC):
         """
     
     
-@dataclass
+
 class Herbivore(Animal):
     """
     derived class for representing Herbivores
     """
+    def __init__(self,age=0,weight=0.0,has_moved=False):
+        """
+        Constructor for Herbivores
+        """
+        self.age=age
+        self.weight=weight
+        self.fitness=0.0
+        self.has_moved=has_moved
 
     p = {  # Dictionary of parameters belonging to the Herbivore class
         "w_birth": 8.0,
@@ -219,9 +224,19 @@ class Herbivore(Animal):
 
         self.Compute_fitness()
 
-@dataclass
+
 class Carnivore(Animal):
     """derived class for representing Carnivores"""
+    
+    def __init__(self,age=0,weight=0.0,has_moved=False):
+        """
+        Constructor for Carnivores
+        """
+        self.age=age
+        self.weight=weight
+        self.fitness=0.0
+        self.has_moved=has_moved
+
 
     p = {  # Dictionary containing default parameter values for Carnivore class
         "w_birth": 6.0,

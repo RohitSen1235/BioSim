@@ -1,6 +1,4 @@
 from dataclasses import dataclass,field
-from distutils.log import error
-from gettext import npgettext
 from Animal import Herbivore,Carnivore
 from Cell import Cell, highland_cell, lowland_cell, water_cell
 from Island import Island

@@ -3,13 +3,17 @@ from typing import List
 from Cell import Cell,desert_cell, highland_cell, lowland_cell
 
 
-@dataclass
 class Island():
 
     
     map: Cell = field(default_factory=list)
     size: tuple = field(init=False)
     
+    def __init__(self,map=[]):
+        """
+        Constructor for island using the map
+        """
+        self.map=map
 
 
     def __str__(self) -> str:
@@ -146,7 +150,7 @@ class Island():
                 all_herbivores.append(herb)
 
         sorted_herbivores=sorted(all_herbivores, key=lambda herb: herb.fitness)
-        # print(sorted_herbivores)
+        
         
         # feeding all the carnivores
         for cell in self.map:

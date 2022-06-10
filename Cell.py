@@ -17,11 +17,13 @@ class Cell(ABC):
     """
     This class represents one unit cell of the island
     """
-    location: tuple 
-    neighbours: tuple = field(default_factory=list)
-    f_max : float = 0.0
-    herbivores: Herbivore = field(default_factory=list)
-    carnivores: Carnivore = field(default_factory=list)
+    # location: tuple 
+    # neighbours: tuple = field(default_factory=list)
+    # f_max : float = 0.0
+    # herbivores: Herbivore = field(default_factory=list)
+    # carnivores: Carnivore = field(default_factory=list)
+
+    
     
     @classmethod
     def set_cell_parameter(cls,new_parameter):
@@ -236,6 +238,14 @@ class Cell(ABC):
 # derived class representing water cells
 class water_cell(Cell):
 
+    def __init__(self,loc=(1,1),neigh=[]):
+        """cnstructor for water cell"""
+        self.location=loc
+        self.neighbours=neigh
+        self.f_max=0.0
+        self.herbivores=[]
+        self.carnivores=[]
+
     # property of water type cell
     p={'f_max':0.0}
 
@@ -256,6 +266,15 @@ class water_cell(Cell):
 
 # derived class representing desert cells
 class desert_cell(Cell):
+
+    def __init__(self,loc=(1,1),neigh=[]):
+        """cnstructor for desert cell"""
+        self.location=loc
+        self.neighbours=neigh
+        self.f_max=0.0
+        self.herbivores=[]
+        self.carnivores=[]
+
 
     # property of water type cell
     p={'f_max':0.0}
@@ -281,6 +300,15 @@ class desert_cell(Cell):
 
 # derived class representing lowland cells
 class lowland_cell(Cell):
+
+    def __init__(self,loc=(1,1),neigh=[]):
+        """cnstructor for lowland cell"""
+        self.location=loc
+        self.neighbours=neigh
+        self.f_max=0.0
+        self.herbivores=[]
+        self.carnivores=[]
+
 
     # property of water type cell
     p={'f_max':800.0}
@@ -308,6 +336,16 @@ class lowland_cell(Cell):
 
 # derived class representing highland cells
 class highland_cell(Cell):
+
+    def __init__(self,loc=(1,1),neigh=[]):
+        """cnstructor for highland cell"""
+        self.location=loc
+        self.neighbours=neigh
+        self.f_max=0.0
+        self.herbivores=[]
+        self.carnivores=[]
+
+
 
     # property of water type cell
     p={'f_max':300.0}
