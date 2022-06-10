@@ -5,15 +5,16 @@ from Cell import Cell,desert_cell, highland_cell, lowland_cell
 
 class Island():
 
-    
-    map: Cell = field(default_factory=list)
-    size: tuple = field(init=False)
-    
+    """
+    This class represents the Island environment
+    -map : is a list of cells of different types that make up the island"""
+       
     def __init__(self,map=[]):
         """
         Constructor for island using the map
         """
         self.map=map
+        self.size
 
 
     def __str__(self) -> str:
