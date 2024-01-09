@@ -7,7 +7,6 @@
 
 ### The World :
 
-<p>
 The world is made of cells, each cell can be thought of as a unit area in the world, cell can be of four types W,H,L and D, they stand for
 <ul>
     <li>W : Water</li>
@@ -15,7 +14,35 @@ The world is made of cells, each cell can be thought of as a unit area in the wo
     <li>L : Low Land</li>
     <li>D : Desert</li>
 </li>
-</p>
+
+World Map
+![Sample World Map](Sample_BioSim_WorldMap.png)
+
+In the program we create a map using the string representation, as shown below:
+<code>
+world = """\
+                WWWWWWWWWWWWWWWWWWWW
+                WWWHHHWLHHWLLLHLWWWW
+                WWHHHHWLLLWLLLHLHHWW
+                WHHHLLLLLLLLLHHHHHHW
+                WHHHHLLLLLLLLHHHHHHW
+                WHHHHHLLLLLLHHHHHHHW
+                WHHHHHHLLLLLHHHHHHWW
+                WWWWWWHLLLLHHHDHHHDW
+                WHDLWWHHLLLHHHDHHHDW
+                WHLLDWWWLLLHHWDDHHLW
+                WLLDDDWWWLWWWWDDDLLW
+                WHDDDDHHWWWWWWWDDLLW
+                WLHHLHHHHWWWWWWDDLLW
+                WLHLLHHHHWWWWWDDWWLW
+                WWWWLHHHHHHWWWDDWWHW
+                WLLLLHHHHDDDDDDWWHHW
+                WLLLLLHHHHDDDDHWDHHW
+                WWLLLLLLLLHDHHHHHHWW
+                WWWLLLLLLLLLLHHHHWWW
+                WWWWWWWWWWWWWWWWWWWW"""
+</code>
+
 
 #### Rules of the world :
 - Water is not habitable
