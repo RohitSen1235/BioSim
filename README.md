@@ -123,4 +123,4 @@ In the program we create a map using the string representation, as shown below:
 
 #### year by year
 
-<video src='Sample_result_300_cycles' width=180/>
+![Video of Sample Result](Sample_result_300_cycles.mp4)
