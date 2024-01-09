@@ -15,12 +15,13 @@ The world is made of cells, each cell can be thought of as a unit area in the wo
     <li>D : Desert</li>
 </li>
 
-World Map
+> Sample World
+ 
 ![Sample World Map](Sample_BioSim_WorldMap.png)
 
 In the program we create a map using the string representation, as shown below:
-<code>
-world = """\
+> 
+> <code> world = """\
                 WWWWWWWWWWWWWWWWWWWW
                 WWWHHHWLHHWLLLHLWWWW
                 WWHHHHWLLLWLLLHLHHWW
@@ -41,7 +42,7 @@ world = """\
                 WWLLLLLLLLHDHHHHHHWW
                 WWWLLLLLLLLLLHHHHWWW
                 WWWWWWWWWWWWWWWWWWWW"""
-</code>
+            </code>
 
 
 #### Rules of the world :
