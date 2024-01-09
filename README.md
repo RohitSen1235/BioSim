@@ -120,7 +120,3 @@ In the program we create a map using the string representation, as shown below:
 #### Result
 
 ![Sample Output Plot](sample_result.png)
-
-#### year by year
-
-![Video of Sample Result](Sample_result_300_cycles.mp4)
