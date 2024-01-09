@@ -1,6 +1,5 @@
 from Cell import desert_cell, highland_cell, lowland_cell
 
-
 class Island():
 
     """
@@ -142,28 +141,23 @@ class Island():
         1)All Herbivores(in random order) consume fodder
         2)All Carnivores(in random order) Hunt and kill Herbivores from least fittest to most fittest 
         """
+
         # Feeding all the herbivores
         for cell in self.map:
             if len(cell.herbivores) !=0:
                 # print(cell.herbivores)
                 cell.feed_herbivore()
-
-        all_herbivores=[]
-        # sorting the herbivores according to fitness
-        for cell in self.map:
-            for herb in cell.herbivores:
-                all_herbivores.append(herb)
-
-        sorted_herbivores=sorted(all_herbivores, key=lambda herb: herb.fitness)
         
-        
-        # feeding all the carnivores
+        herbs_killed = 0
+        # feeding all the carnivores, carnivores can eat prey only if they are in the same cell
         for cell in self.map:
-            if len(sorted_herbivores)!=0 and len(cell.carnivores) !=0:
-                updated_list=cell.feed_carnivore(sorted_herbivores)
+            all_herbivores = cell.herbivores
+            if len(cell.herbivores)!=0 and len(cell.carnivores) !=0:
+
+                updated_list=cell.feed_carnivore()
                 sorted_herbivores=updated_list
 
-        herbs_killed=len(all_herbivores)-len(sorted_herbivores)
+                herbs_killed += len(all_herbivores)-len(sorted_herbivores)
 
         return herbs_killed
 

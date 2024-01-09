@@ -28,10 +28,11 @@ class BioSim:
     This is the Interface class for setting up the simulation by providing various simulation parameters
     """
 
-    def __init__(self,geography,initial_animal_pop=[],seed=0,num_years=1,ymax=None,xmax=None,hist_spec=None,plot=True,img_dir='results',img_base='sample',img_years=1) -> None:
+    def __init__(self,geography=None,initial_animal_pop=[],seed=0,num_years=1,ymax=None,xmax=None,hist_spec=None,plot=True,img_dir='results',img_base='sample',img_years=1) -> None:
         """
         constructor for BioSim object
         """
+        self.geography= None
         self.random_seed =seed
         self.hist_spec = None
         self.vis_years = 1
@@ -167,7 +168,7 @@ class BioSim:
         """
         Additing Polulation to existing island
         """
-        self.populate_island(population_dict)
+        self.island.populate_island(population_dict)
 
 
     def run_year_cycle(self):
@@ -359,7 +360,7 @@ class BioSim:
                 size = (width,height)
                 img_array.append(img)
 
-            out = cv2.VideoWriter(f"{self.img_base}.avi",cv2.VideoWriter_fourcc(*'DIVX'),15, size)
+            out = cv2.VideoWriter(f"{self.img_base}_new.avi",cv2.VideoWriter_fourcc(*'DIVX'),30, size)
     
             for i in range(len(img_array)):
                 out.write(img_array[i])

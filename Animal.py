@@ -291,7 +291,7 @@ class Carnivore(Animal):
                 elif 0 < fitness_delta < self.p['DeltaPhiMax']:
                     kill_prob =fitness_delta/self.p['DeltaPhiMax']
                     # simulating chance using random number generator
-                    if random.random() <= kill_prob:
+                    if random.random() < kill_prob:
                         kill_prey=True
                     else:
                         kill_prey=False

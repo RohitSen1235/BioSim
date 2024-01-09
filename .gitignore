@@ -1,0 +1,12 @@
+.venv
+*.zip
+*.avi
+results/*
+results_01/*
+results_02/*
+mini_simulation_1.py
+test_cell_class.py
+test_visualization.py
+test.py
+visualization_v2.0.py
+__pycache__

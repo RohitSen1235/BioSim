@@ -69,10 +69,11 @@ class Cell(ABC):
             herb.Compute_fitness()
 
 
-    def feed_carnivore(self,sorted_herbivores):
+    def feed_carnivore(self):
         """
         Feeding Carnivores
         """
+        sorted_herbivores = sorted_herbivores=sorted(self.herbivores, key=lambda herb: herb.fitness)
         # carnivores feeding
         random.shuffle(self.carnivores)
         for carn in self.carnivores:
@@ -110,6 +111,9 @@ class Cell(ABC):
         self.carnivores += new_carnivores
         self.herbivores += new_herbivores
 
+        # for item in new_herbivores + new_carnivores:
+        #     print (item)
+
         return len(self.herbivores),len(self.carnivores)
 
 
@@ -134,9 +138,13 @@ class Cell(ABC):
                     self.carnivores.remove(carn)
 
             if len(migrating_animals_list)!=0:
+                # print("animals migrated!!")
                 return migrating_animals_list
+                
             else:
+                # print("animals did not migrate")
                 return None
+                
         else:
             return None
 
@@ -249,7 +257,7 @@ class desert_cell(Cell):
 
 
     # property of water type cell
-    p={'f_max':0.0}
+    p={'f_max':200.0}
 
     # creating a cell of type desert
     @classmethod
@@ -283,7 +291,7 @@ class lowland_cell(Cell):
 
 
     # property of water type cell
-    p={'f_max':800.0}
+    p={'f_max':1200.0}
 
 
     # creating a cell of type lowland
@@ -320,7 +328,7 @@ class highland_cell(Cell):
 
 
     # property of water type cell
-    p={'f_max':300.0}
+    p={'f_max':600.0}
 
 
     # creating a cell of type highland
