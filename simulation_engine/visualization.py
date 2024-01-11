@@ -107,9 +107,7 @@ class Plotting:
         """Redraw plot with updated values.
         """
         if self._ymax is None:
-            if max(self.y_herb) >= max(
-                self.y_carn
-            ):  # Find the biggest count value in either y_herb or y_carn
+            if max(self.y_herb) >= max(self.y_carn):  # Find the biggest count value in either y_herb or y_carn
                 self._ax_main.set_ylim([0, max(self.y_herb) + 20])  # Set y-lim
             else:
                 self._ax_main.set_ylim([0, max(self.y_carn) + 20])  # Set y-lim
@@ -166,8 +164,8 @@ class Plotting:
             "W": (0.0, 0.0, 1.0),  # blue
             "L": (0.0, 0.6, 0.0),  # dark green
             "H": (0.5, 1.0, 0.5),  # light green
-            "D": (1.0, 1.0, 0.5),
-        }  # light yellow
+            "D": (1.0, 1.0, 0.5),  # light yellow
+        }  
 
         # print(map_str)
 
@@ -200,14 +198,12 @@ class Plotting:
         # rows =len(temp)
 
         self._imax_herb = self._axhm_herb.imshow(
-            # self._island.herbivore_pop_matrix,
             self.herb_pop_matrix,
             cmap="viridis",
             interpolation="nearest",
             vmax=self._xmax_herb,
         )
         self._imax_carn = self._axhm_carn.imshow(
-            # self._island.carnivore_pop_matrix,
             self.carn_pop_matrix,
             cmap="cividis",
             interpolation="nearest",

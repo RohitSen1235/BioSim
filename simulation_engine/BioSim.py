@@ -173,23 +173,47 @@ class BioSim:
 
     def run_year_cycle(self):
         """
-        Running life cycle of one year
+        Running the life cycle of one year
         """
+        # Reset migration
+        start_time = time.time()
         self.island.reset_migration()
+        print(f"Reset Migration Time: {time.time() - start_time:.4f} seconds")
+
         # Food growing season
+        start_time = time.time()
         self.island.grow_fodder()
+        print(f"Grow Fodder Time: {time.time() - start_time:.4f} seconds")
+
         # Animals Feeding
+        start_time = time.time()
         self.island.feeding()
+        print(f"Feeding Time: {time.time() - start_time:.4f} seconds")
+
         # Mating season
+        start_time = time.time()
         self.island.reproduction()
+        print(f"Reproduction Time: {time.time() - start_time:.4f} seconds")
+
         # Migration season
+        start_time = time.time()
         self.island.migration()
-        # animals aging
+        print(f"Migration Time: {time.time() - start_time:.4f} seconds")
+
+        # Animals aging
+        start_time = time.time()
         self.island.aging()
-        # natural weight loss
+        print(f"Aging Time: {time.time() - start_time:.4f} seconds")
+
+        # Natural weight loss
+        start_time = time.time()
         self.island.animals_loose_weight()
-        # natural death of animals
+        print(f"Weight Loss Time: {time.time() - start_time:.4f} seconds")
+
+        # Natural death of animals
+        start_time = time.time()
         self.island.animals_die()
+        print(f"Death Time: {time.time() - start_time:.4f} seconds")
 
         self._year +=1
 

@@ -74,10 +74,12 @@ class Cell(ABC):
         Feeding Carnivores
         """
         sorted_herbivores = sorted_herbivores=sorted(self.herbivores, key=lambda herb: herb.fitness)
+        self.herbs_killed = 0
         # carnivores feeding
         random.shuffle(self.carnivores)
         for carn in self.carnivores:
             killed_herbivores=carn.eat_food(sorted_herbivores)
+            self.herbs_killed += len(killed_herbivores)
             carn.Compute_fitness()
             # print(f"prey killed by {carn} loc:{self.location} >> {len(killed_herbivores)}")
             # removing killed herbivores
@@ -190,15 +192,15 @@ class Cell(ABC):
         dead_carnivores=[]
         for herb in self.herbivores:
             if herb.evaluate_death():
-                dead_herbivores.append(herb)
+                # dead_herbivores.append(herb)
                 self.herbivores.remove(herb)
 
         for carn in self.carnivores:
             if carn.evaluate_death():
-                dead_carnivores.append(carn)
+                # dead_carnivores.append(carn)
                 self.carnivores.remove(carn)
 
-        return (dead_herbivores,dead_carnivores)
+        return #(dead_herbivores,dead_carnivores)
 
 
     def count_herbivores(self)->int:
