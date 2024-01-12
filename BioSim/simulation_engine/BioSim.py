@@ -13,6 +13,7 @@ import time
 import os
 import subprocess
 from os import path
+import json
 
 _FFMPEG_BINARY = "ffmpeg"
 
@@ -173,22 +174,25 @@ class BioSim:
 
     def run_year_cycle(self):
         """
-        Running life cycle of one year
+        Running the life cycle of one year
         """
+        # Reset migration
         self.island.reset_migration()
+
         # Food growing season
         self.island.grow_fodder()
+
         # Animals Feeding
         self.island.feeding()
         # Mating season
         self.island.reproduction()
         # Migration season
         self.island.migration()
-        # animals aging
+        # Animals aging
         self.island.aging()
-        # natural weight loss
+        # Natural weight loss
         self.island.animals_loose_weight()
-        # natural death of animals
+        # Natural death of animals
         self.island.animals_die()
 
         self._year +=1
@@ -250,6 +254,9 @@ class BioSim:
                 print(f"Year: {self._year}")
                 print(f"Total animal count: {self.island.num_animals()}")
                 print("Species count: 'Herbivore' : {} 'Carnivore' : {}".format(self.island.num_herbs(),self.island.num_carns()))
+                self.update_pop_matrix()
+                self.serialize_data()
+
 
             # if visualization is enabled
             if self._plot_bool:
@@ -272,6 +279,44 @@ class BioSim:
 
         print("Simulation complete.")
         print("Elapsed time: {:.6} seconds".format(finish_time - start_time))
+
+    def serialize_data(self):
+
+        herb_ages,carn_ages = self.island.animal_ages()
+        herb_fitness,carn_fitness = self.island.animal_fitnesses()
+        herb_weights,carn_weights = self.island.animal_weights()
+
+        data = {
+            # 'year' : self._year,
+            'n_herbs': self.island.num_herbs(),
+            'n_carns': self.island.num_carns(),
+            'herbivore_pop_matrix' : self.herbivore_pop_matrix,
+            'carnivore_pop_matrix' : self.herbivore_pop_matrix,
+            'herb_ages' : herb_ages,
+            'carn_ages' : carn_ages,
+            'herb_fitness': herb_fitness,
+            'carn_fitness': carn_fitness,
+            'herb_weights' : herb_weights,
+            'carn_weights' : carn_weights,
+        }
+
+        def to_json(obj):
+            return json.dumps(obj, default=lambda obj: obj.__dict__, indent=2)
+        
+        # Specify the directory and the .json file name
+        directory = 'serialized_data'
+        json_file_name = f'year_{self._year}.json'
+        json_file_path = os.path.join(directory, json_file_name)
+
+        # Ensure the directory exists, creating it if necessary
+        os.makedirs(directory, exist_ok=True)
+        
+        json_string:str = to_json({self._year : data})
+
+        # Write the JSON string to the .json file
+        with open(json_file_path, 'w') as json_file:
+            json_file.write(json_string)
+
 
 
     def make_movie(self, movie_fmt=_DEFAULT_MOVIE_FORMAT):

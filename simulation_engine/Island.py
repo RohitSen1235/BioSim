@@ -1,5 +1,54 @@
 from Cell import desert_cell, highland_cell, lowland_cell
 
+import multiprocessing
+
+import concurrent.futures
+
+from functools import partial
+
+import copyreg
+import types
+
+# Helper function for parallel processing of herbivores
+def feed_herbivores_in_cell(cell):
+    if len(cell.herbivores) != 0:
+        cell.feed_herbivore()
+# Helper function for parallel processing of carnivores
+def feed_carnivores_in_cell(cell):
+    if len(cell.herbivores) != 0 and len(cell.carnivores) != 0:
+        updated_list = cell.feed_carnivore()
+
+def killed_herbs(cell):
+    return cell.killed_herbs
+
+def migrate_animals_in_cell(cell):
+    """
+    Helper function for parallel processing of animal migrations in a single cell
+    """
+    return cell.migrate_animals()
+
+def increment_age_in_cell(cell):
+    """
+    Helper function for parallel processing of aging in a single cell
+    """
+    cell.increment_age_of_animals()
+
+def weight_loss_in_cell(cell):
+    """
+    Helper function for parallel processing of weight loss in a single cell
+    """
+    cell.weight_loss()
+
+def animal_death_in_cell(cell):
+    """
+    Helper function for parallel processing of animal death in a single cell
+    """
+    if (cell.count_herbivores() + cell.count_carnivores()) != 0:
+        cell.animal_death()
+
+# Register the helper function for pickling
+copyreg.pickle(types.MethodType, lambda m: (getattr, (m.__func__, m.__self__)))
+
 class Island():
 
     """
@@ -134,7 +183,7 @@ class Island():
         for cell in self.map:
             cell.grow_fodder()
         
-
+    # Sequential processing
     def feeding(self):
         """
         Feeding happens in an order
@@ -175,7 +224,7 @@ class Island():
 
         return new_herbs,new_carns
 
-
+     # Sequential processing 
     def migration(self):
         """
         computes all the migrations and updates all the cells 
@@ -200,7 +249,8 @@ class Island():
 
         return n_migrations       
 
-
+    
+    # sequential
     def reset_migration(self):
         """
         reseting migration information for all animals in island
@@ -212,7 +262,7 @@ class Island():
             for carn in cell.carnivores:
                 carn.has_moved=False
 
-    
+    # sequential    
     def aging(self):
         """
         increases the age of all animals by one year
@@ -220,7 +270,8 @@ class Island():
         for cell in self.map:
             cell.increment_age_of_animals()
 
-
+    
+    # sequential
     def animals_loose_weight(self):
         """
         Weight lose step of simulation
@@ -229,13 +280,15 @@ class Island():
             cell.weight_loss()
 
 
+    # sequential
     def animals_die(self):
         """
         computes the death probability of all animals and removes the dead animals from the simulation for the next year
         """
         for cell in self.map:
             if (cell.count_herbivores() + cell.count_carnivores()) != 0:
-                (dead_herbivores,dead_carnivores)=cell.animal_death()
+                # (dead_herbivores,dead_carnivores)=cell.animal_death()
+                cell.animal_death()
 
                 
     def num_animals(self):
@@ -270,21 +323,6 @@ class Island():
         
         return n_carns
 
-
-    # def update_pop_matrix(self):
-    #     """
-    #     Population matrix is used to plot the heat map of animal population
-    #     """
-        
-    #     for cell in self.map:
-    #         if cell.type is not Cell_Type.water:
-    #             row=cell.location[0]-1
-    #             col=cell.location[1]-1
-    #             # print(f"{cell.location}:[{row},{col}]")
-    #             self.herbivore_pop_matrix[row][col]=cell.count_herbivores()
-    #             self.carnivore_pop_matrix[row][col]=cell.count_carnivores()
-    #     #         herb_pop_matrix[row][col]=cell.count_herbivores()
-    #     # print(herb_pop_matrix)
 
     def animal_weights(self):
         """
