@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Editor</title>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
+</head>
+<body>
+
+<h2>Map Editor</h2>
+
+<label for="gridSize">Grid Size:</label>
+<input type="number" id="gridSize" min="1" max="25" placeholder="Enter grid size ( 1 - 25)">
+<select id="cellType">
+    <option value="W">Water</option>
+    <option value="H">High Land</option>
+    <option value="L">Low Land</option>
+    <option value="D">Desert</option>
+</select>
+
+
+<!-- <button onclick="createPerlinMap()">Create Perlin Map</button> -->
+
+<table id="mapTable">
+    <!-- The table will be dynamically generated based on user input -->
+</table>
+<button onclick="createGrid()">Create Grid</button>
+<button onclick="createRandomMap()">Create Random Map</button>
+
+
+<button onclick="generateString()">Generate String</button>
+
+<script src="{% static 'scripts/script.js' %}"></script>
+
+</body>
+</html>
