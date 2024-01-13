@@ -1,4 +1,4 @@
-from Cell import desert_cell, highland_cell, lowland_cell
+from .Cell import desert_cell, highland_cell, lowland_cell
 
 import multiprocessing
 

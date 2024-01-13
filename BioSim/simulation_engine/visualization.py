@@ -4,7 +4,7 @@ from matplotlib import image
 import matplotlib.pyplot as plt
 import numpy as np
 
-from Island import Island
+from .Island import Island
 
 class Plotting:
     """Plotting class to be used in biosim.py.
