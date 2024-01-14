@@ -11,7 +11,7 @@ services:
     build: ./BioSim/
     container_name : biosim
     # command: python manage.py runserver 0.0.0.0:8000
-    command: gunicorn BioSim.wsgi --bind 0.0.0.0:8000
+    command: gunicorn BioSim.asgi:application -c gunicorn_config.py
     volumes:
       # - ./vol/static:/app/BioSim/static
       # - ./vol/app/migrations:/app/app/migrations

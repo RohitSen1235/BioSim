@@ -1,4 +1,5 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .utils import run_biosim
 
 import uuid
@@ -15,11 +16,13 @@ def run_simulation(request):
     # result = run_biosim()
     
     # run async
-    result = run_biosim.delay(id=uid,num_of_simulation_years=10)
+    task_result = run_biosim.delay(id=uid,num_of_simulation_years=10)
     
-    if result:
-        response = 200
-    else:
-        response = 400
+    # if result:
+    #     response = 200
+    # else:
+    #     response = 400
 
-    return HttpResponse(content={response : "Simulation Completed"})
+    # return HttpResponse(content={response : "Simulation Completed"})
+
+    return JsonResponse({'task_id':task_result.id})
