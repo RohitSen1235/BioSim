@@ -1,9 +1,11 @@
+# import cv2
+
 from .Animal import Herbivore,Carnivore
 from .Cell import highland_cell, lowland_cell, water_cell
 from .Island import Island
 from .visualization import Plotting
 
-import cv2
+
 import numpy as np
 import glob
 
@@ -16,6 +18,7 @@ import subprocess
 from os import path
 import json
 
+
 _FFMPEG_BINARY = "ffmpeg"
 
 # update this to the directory and file-name beginning
@@ -23,6 +26,10 @@ _FFMPEG_BINARY = "ffmpeg"
 _DEFAULT_GRAPHICS_DIR = os.path.join("./", "data")
 _DEFAULT_GRAPHICS_NAME = "BioSim"
 _DEFAULT_MOVIE_FORMAT = "mp4"  # alternatives: mp4, gif
+
+
+
+
 
 
 class BioSim:
@@ -45,8 +52,8 @@ class BioSim:
         self._year_target = num_years
         self._plot_bool =plot
         self._plot =None
-        self.img_dir ="results"
-        self.img_base ="sample" 
+        self.img_dir =img_dir
+        self.img_base =img_base 
         self.img_fmt ="png"
         self._num_herbs= 0
         self._num_carns= 0
@@ -201,7 +208,7 @@ class BioSim:
 
         self.update_pop_matrix()
         print(f"year completed:{self._year}")
-
+    
 
     def simulate(self,num_years,vis_years=1,img_years=None):
         """
@@ -225,7 +232,7 @@ class BioSim:
         # setting target number of years for simulation and plotting
         self._year_target += num_years
         # checking if plotting is enabled in this instance of simulation
-        if  self._plot_bool and self._plot is None:
+        if  self._plot_bool and self._plot == None:
             # instantiating object for plotting
             self._plot = Plotting(Island= self.island,                              # assign the island to be simulated 
                                 map_str = self.map_str_representation,              # input string for making the island
@@ -427,30 +434,32 @@ class BioSim:
             os.remove(f)
 
 
-    def make_movie_avi(self):
+    # def make_movie_avi(self):
 
-        if self._plot_bool:
-            img_array = []
-            file_list= glob.glob(f"{self.img_dir}/*.png")
-            for file in sorted(file_list):
-                img = cv2.imread(file)
-                height, width, layers = img.shape
-                size = (width,height)
-                for _ in range(15):
-                    img_array.append(img)
+    #     if self._plot_bool:
+    #         img_array = []
+    #         file_list= glob.glob(f"{self.img_dir}/*.png")
+    #         for file in sorted(file_list):
+    #             img = cv2.imread(file)
+    #             height, width, layers = img.shape
+    #             size = (width,height)
+    #             for _ in range(15):
+    #                 img_array.append(img)
 
-            if self.simulation_name is not None:
-                sim_name= "-" + self.simulation_name
-            else:
-                sim_name=datetime.datetime.now()
+    #         if self.simulation_name is not None:
+    #             sim_name= "-" + self.simulation_name
+    #         else:
+    #             sim_name=datetime.datetime.now()
 
-            out = cv2.VideoWriter(f"{sim_name}.avi",cv2.VideoWriter_fourcc(*'DIVX'),30, size)
+    #         out = cv2.VideoWriter(f"{sim_name}.avi",cv2.VideoWriter_fourcc(*'DIVX'),30, size)
     
-            for i in range(len(img_array)):
-                out.write(img_array[i])
-            out.release()
-        else:
-            print ("plotting is Disabled for this simulation video NOT created, set param: plot = True, to enable plotting")
+    #         for i in range(len(img_array)):
+    #             out.write(img_array[i])
+    #         out.release()
+    #     else:
+    #         print ("plotting is Disabled for this simulation video NOT created, set param: plot = True, to enable plotting")
+
+
 
 
 

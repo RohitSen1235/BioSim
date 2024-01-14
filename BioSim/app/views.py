@@ -1,113 +1,25 @@
 from django.shortcuts import render,HttpResponse
-from simulation_engine.BioSim import BioSim
-import textwrap
-# Create your views here.
+from .utils import run_biosim
+
+import uuid
+import os
 
 def index(request):
     content={}
     return render(request,"biosim_world.html",context=content)
 
 def run_simulation(request):
-
-    # sample map
-    geogr = """\
-                WWWWWWWWWWWWWWWWWWWW
-                WWWHHHWLHHWLLLHLWWWW
-                WWHHHHWLLLWLLLHLHHWW
-                WHHHLLLLLLLLLHHHHHHW
-                WHHHHLLLLLLLLHHHHHHW
-                WHHHHHLLLLLLHHHHHHHW
-                WHHHHHHLLLLLHHHHHHWW
-                WWWWWWHLLLLHHHDHHHDW
-                WHDLWWHHLLLHHHDHHHDW
-                WHLLDWWWLLLHHWDDHHLW
-                WLLDDDWWWLWWWWDDDLLW
-                WHDDDDHHWWWWWWWDDLLW
-                WLHHLHHHHWWWWWWDDLLW
-                WLHLLHHHHWWWWWDDWWLW
-                WWWWLHHHHHHWWWDDWWHW
-                WLLLLHHHHDDDDDDWWHHW
-                WLLLLLHHHHDDDDHWDHHW
-                WWLLLLLLLLHDHHHHHHWW
-                WWWLLLLLLLLLLHHHHWWW
-                WWWWWWWWWWWWWWWWWWWW"""
-    geogr = textwrap.dedent(geogr)
-
-
-    # sample population for simulation
-    example_pop = [{'loc': (5,5),
-                   'pop': [
-                        {'species': 'Herbivore', 'age': 5, 'weight': 20} for _ in range (150)
-                    ]},
-                    {'loc': (5,5),
-                   'pop': [
-                        {'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range (10)
-                    ]}, 
-                #     {'loc': (5,18),
-                #    'pop': [
-                #         {'species': 'Carnivore', 'age': 6, 'weight': 40} for _ in range (120)
-                #     ]}, 
-                #     {'loc': (6,17),
-                #    'pop': [
-                #         {'species': 'Herbivore', 'age': 3, 'weight': 20} for _ in range (200)
-                #     ]},
-                #     {'loc': (19,4),
-                #    'pop': [
-                #         {'species': 'Herbivore', 'age': 4, 'weight': 32} for _ in range (250)
-                #     ]}, 
-                ]
-
-
-    # sample histogram plotting specification
-    # max : maximum value of respective properties in histogram plot
-    # delta : spacing between adjacent histograms in plot
-    example_hist_specs={'fitness': {'max': 1.0, 'delta': 0.01},
-                             'age': {'max': 100.0, 'delta': 1},
-                             'weight': {'max': 100, 'delta': 1}}
-
-
-    # setting max values of herbivores and carnivores in plot legend
-    example_xmax_animals= {'Herbivore': 500, 'Carnivore': 1000}
-
-
-    # creating an instance of BioSim for the simulation
-    sim = BioSim(geography=geogr,
-                initial_animal_pop=example_pop,
-                seed=17,
-                hist_spec=example_hist_specs,
-                xmax=example_xmax_animals,
-                img_dir='plots',
-                img_base='year',
-                plot=True,
-                simulation_name = "From_Django")
+        
+    uid = str(uuid.uuid4().hex)[0:6]
+    # # run in sync
+    # result = run_biosim()
     
-    # # uncomment the below lines for setting/modifying animal parameters
-    # # this is just an example for reference
-    # # this is an optional step
-    # sim.set_animal_parameters('Herbivore',{'w_birth': 12.0,
-    #                                         'sigma_birth': 1.0,
-    #                                         'beta': 0.95,
-    #                                         'eta': 0.15,
-    #                                         'xi':4.5})
-
-    # below line runs the simulation
-    sim.simulate(300)
+    # run async
+    result = run_biosim.delay(id=uid,num_of_simulation_years=10)
     
-    # # make mp4 movie out of the saved images
-    # sim.make_movie()
+    if result:
+        response = 200
+    else:
+        response = 400
 
-    # make .avi movie from the saved images
-    sim.make_movie_avi()
-
-    # # clean/delete the saved images
-    # # do NOT use this command if you wish to keep all the images saved for each year of simulation
-    # sim.image_cleanup()
-    
-    # # if you wish to populate a cell by calling the cell functions independently
-    # new_cell=highland_cell((2,2))
-
-    # new_cell.populate_cell([{'species': "Herbivore", 'age': 5, 'weight': 20}])
-
-    # sim.run_year_cycle()
-
-    return HttpResponse(content={200 : "Simulation Completed"})
+    return HttpResponse(content={response : "Simulation Completed"})

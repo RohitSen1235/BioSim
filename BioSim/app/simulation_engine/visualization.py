@@ -3,8 +3,9 @@
 from matplotlib import image
 import matplotlib.pyplot as plt
 import numpy as np
-
+import os
 from .Island import Island
+
 
 class Plotting:
     """Plotting class to be used in biosim.py.
@@ -215,6 +216,7 @@ class Plotting:
         plt.colorbar(self._imax_herb, ax=self._axhm_herb, orientation="vertical")
 
         plt.colorbar(self._imax_carn, ax=self._axhm_carn, orientation="vertical")
+    
 
     def save_graphics(self, img_base, img_fmt):
         """Saves graphics to file if file name given. Modified from Hans E. Plasser."""
