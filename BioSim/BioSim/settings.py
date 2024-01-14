@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,3 +128,23 @@ STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# # Email Settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
+
+
+# # S3 bucket storage and access
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = access_key_id
+# AWS_SECRET_ACCESS_KEY = secret_access_key
+# AWS_STORAGE_BUCKET_NAME = 'BioSim'
+
+
+# celery settings
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")

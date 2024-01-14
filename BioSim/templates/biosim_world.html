@@ -31,8 +31,17 @@
 
 
 <button onclick="generateString()">Generate String</button>
+<button onclick="runSimulation()">Run Simulation</button>
 
 <script src="{% static 'scripts/script.js' %}"></script>
+
+<script>
+    function runSimulation(){
+        fetch(`run-simulation/`)
+        .then((response) => console.log(response))
+        
+    }
+</script>
 
 </body>
 </html>

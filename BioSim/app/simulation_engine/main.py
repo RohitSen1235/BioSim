@@ -73,12 +73,13 @@ if __name__=="__main__":
     # creating an instance of BioSim for the simulation
     sim = BioSim(geography=geogr,
                 initial_animal_pop=example_pop,
-                seed=101,
+                seed=17,
                 hist_spec=example_hist_specs,
                 xmax=example_xmax_animals,
                 img_dir='plots',
                 img_base='year',
-                plot=False)
+                plot=False,
+                simulation_name = "from_Django")
     
     # sim = BioSim()
 

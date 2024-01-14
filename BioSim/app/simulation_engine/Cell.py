@@ -1,5 +1,5 @@
 from abc import ABC,abstractmethod
-from Animal import Herbivore,Carnivore
+from .Animal import Herbivore,Carnivore
 import random as random
 from math import e
 

@@ -7,3 +7,4 @@ results_02/*
 __pycache__
 BioSim/simulation_engine/serialized_data
 BioSim/simulation_engine/plots
+plots
