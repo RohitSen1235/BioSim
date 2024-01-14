@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!qthr2f0)8jk!0#r&#+c!0lt$fpe9j4$60w8a@&)!^q9iwzo98
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'app',
 ]
 
@@ -69,6 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+
+ASGI_APPLICATION = "BioSim.asgi.application"
 
 WSGI_APPLICATION = 'BioSim.wsgi.application'
 

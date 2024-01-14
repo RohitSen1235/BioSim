@@ -36,11 +36,55 @@
 <script src="{% static 'scripts/script.js' %}"></script>
 
 <script>
-    function runSimulation(){
-        fetch(`run-simulation/`)
-        .then((response) => console.log(response))
-        
-    }
+function runSimulation() {
+    fetch(`run-simulation/`)
+        .then((response) => response.json())
+        .then(data => {
+            console.log(window.location)
+            var loc = window.location
+            var wsStart = "ws://"
+            if (loc.protocol == 'https:') {
+                wsStart = "wss://"
+            }
+            // var endpoint = wsStart + window.location.host + "/ws/task_status/"
+            var endpoint = `ws://localhost:8000/ws/task_status/`
+            // Establish WebSocket connection
+            console.log(endpoint)
+
+            var socket = new WebSocket(endpoint);
+
+            // Send the task ID to the server
+            socket.onopen = event => {
+                console.log('WebSocket connection opened!');
+                socket.send(JSON.stringify({ 'task_id': data.task_id }));
+            };
+
+            // Handle messages from the server
+            socket.onmessage = event => {
+                const receivedData = JSON.parse(event.data);
+                console.log('Received message from server:', receivedData);
+
+                // Update the user based on the task status
+                if (receivedData.status === 'SUCCESS') {
+                    console.log(`task : completed`)
+                    alert('Task completed!');
+                    // socket.close();
+                } else {
+                    // Update the user interface based on the task status
+                    console.log(`Task status: ${receivedData.status}`);
+                }
+            };
+
+            socket.onclose = event => {
+                console.log('WebSocket connection closed:', event);
+            };
+
+            socket.onerror = error => {
+                console.error('WebSocket error:', error);
+            };
+        });
+};
+
 </script>
 
 </body>

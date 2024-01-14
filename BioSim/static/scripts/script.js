@@ -1,5 +1,4 @@
 var table = document.getElementById("mapTable");
-var perlin = new Noise(Math.random());
 
 function createGrid() {
     // Get the user input for grid size
@@ -70,35 +69,6 @@ function createRandomMap() {
             table.rows[i].cells[j].classList.remove('water', 'highland', 'lowland', 'desert');
 
             // Apply different colors based on cell type
-            applyColor(table.rows[i].cells[j]);
-        }
-    }
-}
-
-function createPerlinMap() {
-    var gridSize = table.rows.length;
-
-    for (var i = 1; i < gridSize - 1; i++) {
-        for (var j = 1; j < gridSize - 1; j++) {
-            // Generate 2D Perlin noise values
-            var x = i / gridSize;
-            var y = j / gridSize;
-            var value = perlin.perlin2(x, y);
-
-            // Map the noise value to cell types
-            var cellType;
-            if (value < -0.2) {
-                cellType = 'W';
-            } else if (value < 0.2) {
-                cellType = 'L';
-            } else if (value < 0.4) {
-                cellType = 'H';
-            } else {
-                cellType = 'D';
-            }
-
-            // Set cell type and apply color
-            table.rows[i].cells[j].textContent = cellType;
             applyColor(table.rows[i].cells[j]);
         }
     }
