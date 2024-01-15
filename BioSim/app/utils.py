@@ -3,32 +3,43 @@ import textwrap
 from celery import shared_task
 from pathlib import Path
 
+import redis
+import zlib
+import pickle
+
+# redis connection
+cache = redis.StrictRedis(host = 'redis', port=6379, db=0)
+
 @shared_task
-def run_biosim(id:str,num_of_simulation_years:int=5):
+def run_biosim(id:str,num_of_simulation_years:int=5, map:str = None):
     
     try:
+        if map is None:
         # sample map
-        geogr = """\
-                    WWWWWWWWWWWWWWWWWWWW
-                    WWWHHHWLHHWLLLHLWWWW
-                    WWHHHHWLLLWLLLHLHHWW
-                    WHHHLLLLLLLLLHHHHHHW
-                    WHHHHLLLLLLLLHHHHHHW
-                    WHHHHHLLLLLLHHHHHHHW
-                    WHHHHHHLLLLLHHHHHHWW
-                    WWWWWWHLLLLHHHDHHHDW
-                    WHDLWWHHLLLHHHDHHHDW
-                    WHLLDWWWLLLHHWDDHHLW
-                    WLLDDDWWWLWWWWDDDLLW
-                    WHDDDDHHWWWWWWWDDLLW
-                    WLHHLHHHHWWWWWWDDLLW
-                    WLHLLHHHHWWWWWDDWWLW
-                    WWWWLHHHHHHWWWDDWWHW
-                    WLLLLHHHHDDDDDDWWHHW
-                    WLLLLLHHHHDDDDHWDHHW
-                    WWLLLLLLLLHDHHHHHHWW
-                    WWWLLLLLLLLLLHHHHWWW
-                    WWWWWWWWWWWWWWWWWWWW"""
+            geogr = """\
+                        WWWWWWWWWWWWWWWWWWWW
+                        WWWHHHWLHHWLLLHLWWWW
+                        WWHHHHWLLLWLLLHLHHWW
+                        WHHHLLLLLLLLLHHHHHHW
+                        WHHHHLLLLLLLLHHHHHHW
+                        WHHHHHLLLLLLHHHHHHHW
+                        WHHHHHHLLLLLHHHHHHWW
+                        WWWWWWHLLLLHHHDHHHDW
+                        WHDLWWHHLLLHHHDHHHDW
+                        WHLLDWWWLLLHHWDDHHLW
+                        WLLDDDWWWLWWWWDDDLLW
+                        WHDDDDHHWWWWWWWDDLLW
+                        WLHHLHHHHWWWWWWDDLLW
+                        WLHLLHHHHWWWWWDDWWLW
+                        WWWWLHHHHHHWWWDDWWHW
+                        WLLLLHHHHDDDDDDWWHHW
+                        WLLLLLHHHHDDDDHWDHHW
+                        WWLLLLLLLLHDHHHHHHWW
+                        WWWLLLLLLLLLLHHHHWWW
+                        WWWWWWWWWWWWWWWWWWWW"""
+        else:
+            geogr = map
+            
         geogr = textwrap.dedent(geogr)
 
 
@@ -41,18 +52,6 @@ def run_biosim(id:str,num_of_simulation_years:int=5):
                        'pop': [
                             {'species': 'Carnivore', 'age': 5, 'weight': 20} for _ in range (10)
                         ]}, 
-                    #     {'loc': (5,18),
-                    #    'pop': [
-                    #         {'species': 'Carnivore', 'age': 6, 'weight': 40} for _ in range (120)
-                    #     ]}, 
-                    #     {'loc': (6,17),
-                    #    'pop': [
-                    #         {'species': 'Herbivore', 'age': 3, 'weight': 20} for _ in range (200)
-                    #     ]},
-                    #     {'loc': (19,4),
-                    #    'pop': [
-                    #         {'species': 'Herbivore', 'age': 4, 'weight': 32} for _ in range (250)
-                    #     ]}, 
                     ]
 
 
@@ -65,7 +64,7 @@ def run_biosim(id:str,num_of_simulation_years:int=5):
 
 
         # setting max values of herbivores and carnivores in plot legend
-        example_xmax_animals= {'Herbivore': 500, 'Carnivore': 1000}
+        example_xmax_animals= {'Herbivore': 500, 'Carnivore': 500}
 
         # CURRENT_DIR = Path(__file__).resolve().parent.parent
         # creating an instance of BioSim for the simulation
@@ -112,3 +111,22 @@ def run_biosim(id:str,num_of_simulation_years:int=5):
     except Exception as e:
         return False
 
+
+def StoreInCache(key,value):
+    # df_compressed = zlib.compress(pickle.dumps(df))
+    res = cache.set(key,value=value,ex=3600)
+    if res == True:
+        print(f'{key} cached')
+
+def LoadFromCache(key):
+    try:
+        data = cache.get(key)
+        return data
+    except:
+        print("Key not available in cache")
+
+def RemoveFromCache(key):
+    try:
+        cache.delete(key)
+    except:
+        print("Key not available in cache")

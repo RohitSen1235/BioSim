@@ -1,91 +1,278 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Editor</title>
-    <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<h2>Map Editor</h2>
+{% block content %}
+<!-- <div class="row">
+    <div class="col-4">
+        <div class="row">
+            <div class="col-6">
+                <div class="collapsible-title col-12" onclick="toggleCollapsible()">
+                    <span>Carnivore Params</span>
+                    <span id="toggleIcon">+</span>
+                </div>
+                <div class="collapsible-content col-6" id="inputContent">
+                    <form id="userInputForm">
+                        <label for="w_birth">w_birth:</label>
+                        <input type="text" id="w_birth" name="w_birth" placeholder="6.0">
+                        <br>
+                        <label for="sigma_birth">sigma_birth:</label>
+                        <input type="text" id="sigma_birth" name="sigma_birth" placeholder="1.0">
+                        <br>
+                        <label for="beta">beta:</label>
+                        <input type="text" id="beta" name="beta" placeholder="0.75">
+                        <br>
+                        <label for="eta">eta:</label>
+                        <input type="text" id="eta" name="eta" placeholder="0.125">
+                        <br>
+                        <label for="a_half">a_half:</label>
+                        <input type="text" id="a_half" name="a_half" placeholder="40">
+                        <br>
+                        <label for="phi_age">phi_age:</label>
+                        <input type="text" id="phi_age" name="phi_age" placeholder="0.3">
+                        <br>
+                        <label for="w_half">w_half:</label>
+                        <input type="text" id="w_half" name="w_half" placeholder="4.0">
+                        <br>
+                        <label for="phi_weight">phi_weight:</label>
+                        <input type="text" id="phi_weight" name="phi_weight" placeholder="0.4">
+                        <br>
+                        <label for="mu">mu:</label>
+                        <input type="text" id="mu" name="mu" placeholder="0.4">
+                        <br>
+                        <label for="gamma">gamma:</label>
+                        <input type="text" id="gamma" name="gamma" placeholder="0.8">
+                        <br>
+                        <label for="zeta">zeta:</label>
+                        <input type="text" id="zeta" name="zeta" placeholder="3.5">
+                        <br>
+                        <label for="xi">xi:</label>
+                        <input type="text" id="xi" name="xi" placeholder="1.1">
+                        <br>
+                        <label for="omega">omega:</label>
+                        <input type="omega" id="omega" name="omega" placeholder="0.8">
+                        <br>
+                        <label for="F">F:</label>
+                        <input type="text" id="F" name="F" placeholder="50.0">
+                        <br>
+                        <label for="DeltaPhiMax">DeltaPhiMax:</label>
+                        <input type="text" id="DeltaPhiMax" name="DeltaPhiMax" placeholder="10.0">
+                        <br>
+                    
+                        <button type="button" id="submitButton" onclick="generateJSON()">Submit</button>
+                    </form>
+                    
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="collapsible-title col-12" onclick="toggleCollapsible()">
+                    <span>Herbivore Params</span>
+                    <span id="toggleIcon">+</span>
+                </div>
+                <div class="collapsible-content col-6" id="inputContent">
+                    <form id="userInputForm">
+                        <label for="w_birth">w_birth:</label>
+                        <input type="text" id="w_birth" name="w_birth" placeholder="6.0">
+                        <br>
+                        <label for="sigma_birth">sigma_birth:</label>
+                        <input type="text" id="sigma_birth" name="sigma_birth" placeholder="1.0">
+                        <br>
+                        <label for="beta">beta:</label>
+                        <input type="text" id="beta" name="beta" placeholder="0.75">
+                        <br>
+                        <label for="eta">eta:</label>
+                        <input type="text" id="eta" name="eta" placeholder="0.125">
+                        <br>
+                        <label for="a_half">a_half:</label>
+                        <input type="text" id="a_half" name="a_half" placeholder="40">
+                        <br>
+                        <label for="phi_age">phi_age:</label>
+                        <input type="text" id="phi_age" name="phi_age" placeholder="0.3">
+                        <br>
+                        <label for="w_half">w_half:</label>
+                        <input type="text" id="w_half" name="w_half" placeholder="4.0">
+                        <br>
+                        <label for="phi_weight">phi_weight:</label>
+                        <input type="text" id="phi_weight" name="phi_weight" placeholder="0.4">
+                        <br>
+                        <label for="mu">mu:</label>
+                        <input type="text" id="mu" name="mu" placeholder="0.4">
+                        <br>
+                        <label for="gamma">gamma:</label>
+                        <input type="text" id="gamma" name="gamma" placeholder="0.8">
+                        <br>
+                        <label for="zeta">zeta:</label>
+                        <input type="text" id="zeta" name="zeta" placeholder="3.5">
+                        <br>
+                        <label for="xi">xi:</label>
+                        <input type="text" id="xi" name="xi" placeholder="1.1">
+                        <br>
+                        <label for="omega">omega:</label>
+                        <input type="omega" id="omega" name="omega" placeholder="0.8">
+                        <br>
+                        <label for="F">F:</label>
+                        <input type="text" id="F" name="F" placeholder="50.0">
+                        <br>
+                        <label for="DeltaPhiMax">DeltaPhiMax:</label>
+                        <input type="text" id="DeltaPhiMax" name="DeltaPhiMax" placeholder="10.0">
+                        <br>
+                    
+                        <button type="button" id="submitButton" onclick="generateJSON()">Submit</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>    
+    <div class="col-4 row">
+        <div class="col-12">
+            <label for="gridSize">Grid Size:</label>
+            <input type="number" id="gridSize" min="1" max="25" placeholder="Enter grid size ( 1 - 25)">
+            <select id="cellType">
+                <option value="W">Water</option>
+                <option value="H">High Land</option>
+                <option value="L">Low Land</option>
+                <option value="D">Desert</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <table id="mapTable">
 
-<label for="gridSize">Grid Size:</label>
-<input type="number" id="gridSize" min="1" max="25" placeholder="Enter grid size ( 1 - 25)">
-<select id="cellType">
-    <option value="W">Water</option>
-    <option value="H">High Land</option>
-    <option value="L">Low Land</option>
-    <option value="D">Desert</option>
-</select>
+            </table>
+        </div>
+
+        <button onclick="createGrid()">Create Grid</button>
+    </div>
+    <div class="col-4">
+        <button onclick="generateString()">Generate String</button>
+        <button onclick="runSimulation()">Run Simulation</button>
+    </div>
+</div> -->
 
 
-<!-- <button onclick="createPerlinMap()">Create Perlin Map</button> -->
+    <div class="row">
+        <div class="col-6">
+            <div class="map collapsible-container">
+                <div class="col-12">
+                    <div class="collapsible-title col-12" onclick="toggleCollapsible('carnivoreParams')">
+                        <span>Map</span>
+                        <span id="toggleIconCarnivore">+</span>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="formGroupExampleInput" class="form-label">Example label</label> -->
+                        <input class="form-control" type="number" id="gridSize" min="1" max="15" placeholder="Enter map size ( 1 - 15)" required>
+                      </div>
+    
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="cellType">Selected Landscape:</label>
+                        <select class="form-select" id="cellType">
+                            <option value="W">Water</option>
+                            <option value="H">High Land</option>
+                            <option value="L">Low Land</option>
+                            <option value="D">Desert</option>
+                        </select>
+                      </div>
+                      
+                </div>
+                
+                <!-- <input type="submit" value="Create Grid" onclick="createGrid()"> -->
+                
+                <input type="submit" value="Create Random Map" onclick="createRandomMap()">
+                
+                <div class="col-12" id="Map">
+                    <table id="mapTable">
+        
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row col-6">
+            <div class="col-12">
+                <div class="accordion accordion-flush">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                          <strong>Instructions:</strong>
+                        </button>
+                      </h2>
+                      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <ol>
+                                <li>Select Map size, should be <= 15</li>
+                                <li>Click on Create Grid, outline will be generated with Water type cells</li>
+                                <li>Create Random Map, this will populate all the cells randomly</li>
+                                <li>Select Landscape type and click on the cells you wishto change to selected type</li>
+                            </ol>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="collapsible-container">
+                    <div class="collapsible-title col-12" onclick="toggleCollapsible('carnivoreParams')">
+                        <span>Carnivore Params</span>
+                        <span id="toggleIconCarnivore">+</span>
+                    </div>
+                    <div class="collapsible-content col-12" id="inputContentCarnivore">
+                            <div class="form-group">
+                                <label for="w_birth">w_birth:</label>
+                                <input type="text" class="form-control" id="carn_w_birth" name="carn_w_birth" placeholder="6.0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sigma_birth">sigma_birth:</label>
+                                <input type="text" class="form-control" id="carn_sigma_birth" name="carn_sigma_birth" placeholder="1.0">
+                            </div>
+        
+                            <input type="submit" value="Apply" onclick="saveCarnivoreParameter()">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="collapsible-container">
+                    <div class="collapsible-title col-12" onclick="toggleCollapsible('herbivoreParams')">
+                        <span>Herbivore Params</span>
+                        <span id="toggleIconHerbivore">+</span>
+                    </div>
+                    <div class="collapsible-content col-12" id="inputContentHerbivore">
+                            <div class="form-group">
+                                <label for="w_birth">w_birth:</label>
+                                <input type="text" class="form-control" id="w_birth" name="w_birth" placeholder="6.0">
+                            </div>
+                            <div class="form-group">
+                                <label for="sigma_birth">sigma_birth:</label>
+                                <input type="text" class="form-control" id="sigma_birth" name="sigma_birth" placeholder="1.0">
+                            </div>
+        
+                            <input type="submit" value="Apply" onclick="saveHerbivoreParameter()">
+                    </div>    
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="collapsible-container">
+                    <div class="collapsible-title col-12" onclick="toggleCollapsible('herbivoreParams')">
+                        <span>Simulation Parameters</span>
+                        <span id="toggleIconHerbivore">+</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="sim_years">simulation years:</label>
+                        <input type="text" class="form-control" id="sim_years" name="sim_years" placeholder="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prj_name">project name:</label>
+                        <input type="text" class="form-control" id="prj_name" name="prj_name" placeholder="Proj_01" required>
+                    </div>
+                    <!-- <button onclick="generateString()">Generate String</button> -->
+                    <!-- <button type="submit" onclick="runSimulation()">Run Simulation</button> -->
+                    <input type="submit" value="Run Simulation" onclick="runSimulation()">
+                </div>
+            </div> 
+            <div class="col-12">
+                <div class="result">
+                    <!-- download button will appear here -->
+                </div>
+            </div>   
+        </div>
+    </div>
+    
 
-<table id="mapTable">
-    <!-- The table will be dynamically generated based on user input -->
-</table>
-<button onclick="createGrid()">Create Grid</button>
-<button onclick="createRandomMap()">Create Random Map</button>
-
-
-<button onclick="generateString()">Generate String</button>
-<button onclick="runSimulation()">Run Simulation</button>
-
-<script src="{% static 'scripts/script.js' %}"></script>
-
-<script>
-function runSimulation() {
-    fetch(`run-simulation/`)
-        .then((response) => response.json())
-        .then(data => {
-            console.log(window.location)
-            var loc = window.location
-            var wsStart = "ws://"
-            if (loc.protocol == 'https:') {
-                wsStart = "wss://"
-            }
-            // var endpoint = wsStart + window.location.host + "/ws/task_status/"
-            var endpoint = `ws://localhost:8000/ws/task_status/`
-            // Establish WebSocket connection
-            console.log(endpoint)
-
-            var socket = new WebSocket(endpoint);
-
-            // Send the task ID to the server
-            socket.onopen = event => {
-                console.log('WebSocket connection opened!');
-                socket.send(JSON.stringify({ 'task_id': data.task_id }));
-            };
-
-            // Handle messages from the server
-            socket.onmessage = event => {
-                const receivedData = JSON.parse(event.data);
-                console.log('Received message from server:', receivedData);
-
-                // Update the user based on the task status
-                if (receivedData.status === 'SUCCESS') {
-                    console.log(`task : completed`)
-                    alert('Task completed!');
-                    // socket.close();
-                } else {
-                    // Update the user interface based on the task status
-                    console.log(`Task status: ${receivedData.status}`);
-                }
-            };
-
-            socket.onclose = event => {
-                console.log('WebSocket connection closed:', event);
-            };
-
-            socket.onerror = error => {
-                console.error('WebSocket error:', error);
-            };
-        });
-};
-
-</script>
-
-</body>
-</html>
+{% endblock %}
