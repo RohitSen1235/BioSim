@@ -31,3 +31,126 @@ select {
 .desert {
     background-color: darkkhaki;
 }
+
+
+.collapsible-container {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
+    max-height: 400px;
+}
+
+.map{
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: scroll;
+    max-height: 760px;
+}
+
+.collapsible-title {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.collapsible-content {
+    display: block;
+}
+
+label {
+    font-weight: bold;
+    display: inline-block;
+    width: auto ; /* Adjust the width based on your needs */
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+input {
+    width: calc(100% - 10px); /* Adjust the width based on your needs */
+    padding: 2px;
+    margin-bottom: 1px;
+    box-sizing: border-box;
+    border: none;
+}
+
+input[type="submit"]
+{
+    margin-top: 2rem;
+}
+
+input[type="number"]
+{
+    margin-top: 2rem;
+    border: solid 1px grey;
+    margin-bottom: 1.5rem;
+}
+
+input:not(:last-child) {
+    margin-right: 5px;
+}
+
+#submitButton {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#jsonOutput {
+    margin-top: 20px;
+    font-family: monospace;
+    white-space: pre;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#inputContainer {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#inputText {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    font-family: monospace;
+}
+
+#submitButton {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#Map {
+    width: 100%;
+    height: 450px;
+    border: solid 1px #007bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
