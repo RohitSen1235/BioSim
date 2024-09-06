@@ -5,7 +5,7 @@ services:
   redis:
     image: "redis:alpine"
     container_name: redis
-    # restart: always
+    restart: always
 
   biosim:
     build: ./BioSim/
@@ -20,7 +20,7 @@ services:
       - 8000:8000
     depends_on:
       - redis
-    # restart: always
+    restart: always
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}

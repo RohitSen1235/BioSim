@@ -6,5 +6,6 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 COPY . /app/
 WORKDIR /app
+RUN mkdir plots
 RUN python manage.py collectstatic --noinput
 RUN chmod +x start_celery.sh

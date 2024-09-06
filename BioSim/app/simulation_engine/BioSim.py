@@ -18,7 +18,6 @@ import subprocess
 from os import path
 import json
 
-
 _FFMPEG_BINARY = "ffmpeg"
 
 # update this to the directory and file-name beginning
@@ -285,6 +284,8 @@ class BioSim:
                     if img_years is None:
                         if self._year % vis_years == 0:
                             self._plot.save_graphics(self.img_base, self.img_fmt)
+                            
+                            
 
                     else:
                         if self._year % img_years == 0:
