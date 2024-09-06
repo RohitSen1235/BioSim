@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from app import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,11 +142,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_HOST_PASSWORD = ''
 
 
-# # S3 bucket storage and access
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_ACCESS_KEY_ID = access_key_id
-# AWS_SECRET_ACCESS_KEY = secret_access_key
-# AWS_STORAGE_BUCKET_NAME = 'BioSim'
+# S3 bucket storage and access
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = config.access_key_id
+AWS_SECRET_ACCESS_KEY = config.secret_access_key
+AWS_STORAGE_BUCKET_NAME = 'biosim_results'
 
 
 # celery settings

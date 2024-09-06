@@ -2,13 +2,27 @@ from .simulation_engine.BioSim import BioSim
 import textwrap
 from celery import shared_task
 from pathlib import Path
+from app.models import FileStorage
+from django.conf import settings 
+
+import boto3
 
 import redis
 import zlib
 import pickle
+import subprocess
 
 # redis connection
 cache = redis.StrictRedis(host = 'redis', port=6379, db=0)
+
+def save_to_s3(image, filename):
+    s3 = boto3.client('s3')
+    s3.upload_fileobj(
+        image,
+        settings.AWS_STORAGE_BUCKET_NAME,
+        f'{filename}',
+        ExtraArgs={'ContentType': 'image/png'}
+    )
 
 @shared_task
 def run_biosim(id:str,num_of_simulation_years:int=5, map:str = None):
@@ -90,6 +104,13 @@ def run_biosim(id:str,num_of_simulation_years:int=5, map:str = None):
         # below line runs the simulation
         result = sim.simulate(num_years=num_of_simulation_years)
 
+        compress_folder(folder_path=f'plots/'+id,output_filename=f'{id}_plots.zip')
+
+        # Create a new model instance
+        file = FileStorage.objects.create(zip_file = f"/plots/{id}/{id}_plots.zip" )
+        file.save()
+        # Save the image to the instance's image field
+        # zip_file.save(f"/plots/{id}/{id}_plots.zip")
         # # make mp4 movie out of the saved images
         # sim.make_movie()
 
@@ -109,6 +130,7 @@ def run_biosim(id:str,num_of_simulation_years:int=5, map:str = None):
         return True
     
     except Exception as e:
+        print(f"run_biosim :: Exception thrown : {e}")
         return False
 
 
@@ -130,3 +152,16 @@ def RemoveFromCache(key):
         cache.delete(key)
     except:
         print("Key not available in cache")
+
+
+
+
+@shared_task
+def compress_folder(folder_path, output_filename):
+    try:
+        subprocess.run(['tar', '-czvf', output_filename, folder_path], check=True)
+        print(f"Folder compressed successfully to {output_filename}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error compressing folder: {e}")
+
+
